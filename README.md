@@ -102,9 +102,17 @@ Alternatively, merge the snippet to Packages/manifest.json
 
 ## Post Installation
 
-Upon installation, regenerate the `.csproj` files via the **External Tools** tab in Preferences.
+After installing the package, follow these steps to regenerate the .csproj files:
 
-Prior Config files are overwritten upon package installation.
+1. Open the Preferences window.
+2. Go to the External Tools tab.
+3. Click on the Regenerate .csproj Files option.
+
+Please note that any previously existing configuration files will be overwritten during the package installation.
+
+### Extras 
+
+- To enable grammar and highlighting for jslib files, install the [jslib-for-unity](https://github.com/TheSleepyKoala/jslib-for-unity) package.
 
 ## Contributing
 
