@@ -41,19 +41,25 @@ Furthermore, the package introduces a dedicated configuration section within Ext
 ## Prerequisites
 
 1. Install both the .Net 7 and .Net 6 SDKs - <https://dotnet.microsoft.com/en-us/download>
-2. **[Windows only]** Logout or restart Windows to allow changes to `%PATH%` to take effect.
-3. **[macOS only]** To avoid seeing "Some projects have trouble loading. Please review the output for more details", make sure to install the latest stable [Mono](https://www.mono-project.com/download/) release.
+2. Crossroad choice between Omnisharp (Unsupported) or C# Devkit (Preview but supported by Microsoft)
+    - Omnisharp: Install the [C# extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp) from the VS Code Marketplace.
+    - C# Devkit: Install the [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) from the VS Code Marketplace.
+
+### Windows Only
+
+- Logout or restart Windows to allow changes to `%PATH%` to take effect.
+- The C# extension no longer ships with Microsoft Build Tools, so they must be installed manually.
+    - Download the [Build Tools for Visual Studio 2022](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022).
+    - Install the .NET desktop build tools workload. No other components are required.
+
+### MacOS Only
+
+- To avoid seeing "Some projects have trouble loading. Please review the output for more details", make sure to install the latest stable [Mono](https://www.mono-project.com/download/) release.
+- If you aren't using C# Devkit, do the following:
     1. In your Visual Studio Code (VS Code) user settings, ensure that the configuration `"omnisharp.useModernNet":` is set to `false`. This configuration must be in place to prevent VS Code from utilizing the Mono version included in the official C# extension (specifically, version 6.0.X as of the latest release).
     2. Upon installing the latest version of Mono directly, set the following configuration value:
     `"omnisharp.monoPath": "/Library/Frameworks/Mono.framework/Versions/Current"`
         - Ensure you replace the provided path with the location where you installed Mono. By doing so, VS Code will strictly utilize the newly installed version of Mono for all operations.
-4. Install the C# extension from the VS Code Marketplace.
-5. Install Build Tools for Visual Studio (Windows only)
-
-The C# extension no longer ships with Microsoft Build Tools, so they must be installed manually.
-
--   Download the [Build Tools for Visual Studio 2022](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022).
--   Install the .NET desktop build tools workload. No other components are required.
 
 ## Install via Package Manager
 
