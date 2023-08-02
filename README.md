@@ -12,7 +12,7 @@ If you find my package useful, please consider giving it a Star 🌟 to show you
 
 ### Project SDK Support
 
-This package offers comprehensive project SDK support based on .Net 7 and .Net 6 standards. By leveraging this support, you can utilize the latest C# features and language enhancements within your Unity projects, subject to Unity's compatibility.
+This package offers comprehensive project SDK support based on .Net standards. By leveraging this support, you can utilize the latest C# features and language enhancements within your Unity projects, subject to Unity's compatibility.
 
 ### Organized .csproj Files
 
