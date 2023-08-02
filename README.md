@@ -4,7 +4,7 @@
 
 Unity Code editor integration for VSCode. **(2021.3+)**
 
-See [Changelog](https://github.com/Chizaruu/com.tsk.ide.vscode/wiki/CHANGELOG).
+Check out the [Changelog](https://github.com/Chizaruu/com.tsk.ide.vscode/wiki/CHANGELOG) and [FAQs](https://github.com/Chizaruu/com.tsk.ide.vscode/wiki/FAQs) pages for more information.
 
 If you find my package useful, please consider giving it a Star 🌟 to show your support. Thank you!
 
