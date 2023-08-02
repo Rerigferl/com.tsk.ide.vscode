@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.tsk.ide.vscode": {
-      "version": "file:B:/GitHub/com.tsk.ide.vscode/com.tsk.ide.vscode",
+      "version": "file:../../../com.tsk.ide.vscode",
       "depth": 0,
       "source": "local",
       "dependencies": {}
     },
     "com.tsk.ide.vscodetests": {
-      "version": "file:B:/GitHub/com.tsk.ide.vscode/com.tsk.ide.vscodetests",
+      "version": "file:../../../com.tsk.ide.vscodetests",
       "depth": 0,
       "source": "local",
       "dependencies": {
