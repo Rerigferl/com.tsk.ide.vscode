@@ -1,8 +1,8 @@
 {
   "disableProjectUpdate": true,
   "dependencies": {
-    "com.tsk.ide.vscode": "file:B:/GitHub/com.tsk.ide.vscode/com.tsk.ide.vscode",
-    "com.tsk.ide.vscodetests": "file:B:/GitHub/com.tsk.ide.vscode/com.tsk.ide.vscodetests",
+    "com.tsk.ide.vscode": "file:../../../com.tsk.ide.vscode",
+    "com.tsk.ide.vscodetests": "file:../../../com.tsk.ide.vscodetests",
     "com.unity.test-framework": "1.3.4"
   }
 }
