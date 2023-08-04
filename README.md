@@ -6,6 +6,8 @@ Unity Code editor integration for VSCode. **(2021.3+)**
 
 Check out the [Changelog](https://github.com/Chizaruu/com.tsk.ide.vscode/wiki/CHANGELOG) and [FAQs](https://github.com/Chizaruu/com.tsk.ide.vscode/wiki/FAQs) pages for more information.
 
+**Note** - This package is [incompatible](https://github.com/Chizaruu/com.tsk.ide.vscode/issues/77) with **Unity Visual Studio** package.
+
 If you find my package useful, please consider giving it a Star 🌟 to show your support. Thank you!
 
 ## Features
@@ -39,7 +41,6 @@ Beyond simplifying setup, the com.tsk.ide.vscode package introduces a dedicated 
 By eliminating the need to disable the use of ModernNet, you can effortlessly access the complete range of modern .NET features within your Unity projects. This seamless integration unlocks a multitude of benefits, including enhanced performance and improved stability, empowering you to optimize your projects like never before.
 
 ## Prerequisites
-
 1. Install both the .Net 7 and .Net 6 SDKs - <https://dotnet.microsoft.com/en-us/download>
 2. Crossroad choice between Omnisharp (Unsupported) or C# Devkit (Preview but supported by Microsoft)
     - Omnisharp: Install the [C# extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp) from the VS Code Marketplace.
