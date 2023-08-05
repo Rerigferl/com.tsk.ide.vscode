@@ -22,7 +22,7 @@ To enhance project structure and maintain cleanliness, the `com.tsk.ide.vscode` 
 
 ### Successful Dotnet Build
 
-The `com.tsk.ide.vscode` package ensures a seamless build process by guaranteeing successful execution of the `dotnet build` command. This means that your project can be compiled and built without any issues, ensuring a smooth development experience.
+The `com.tsk.ide.vscode` package ensures a seamless build process by guaranteeing successful execution of the `dotnet build` command. This means your project can be compiled and built without issues, ensuring a smooth development experience.
 
 ### Microsoft.Unity.Analyzers Integration [![NuGet](https://img.shields.io/nuget/v/Microsoft.Unity.Analyzers.svg)](https://nuget.org/packages/Microsoft.Unity.Analyzers)
 
@@ -36,30 +36,9 @@ To utilize this feature, navigate to `Preferences > External Tools > Generate co
 
 Beyond simplifying setup, the com.tsk.ide.vscode package introduces a dedicated configuration section within External Tools. This component provides unprecedented control over the settings files generated, enabling manual customization in accordance with individual preferences and unique project requirements. This level of flexibility allows you to customize your development environment for the best possible productivity and outcome.
 
-### Enable the Full Potential of Modern .NET
-
-By eliminating the need to disable the use of ModernNet, you can effortlessly access the complete range of modern .NET features within your Unity projects. This seamless integration unlocks a multitude of benefits, including enhanced performance and improved stability, empowering you to optimize your projects like never before.
-
 ## Prerequisites
-1. Install both the .Net 7 and .Net 6 SDKs - <https://dotnet.microsoft.com/en-us/download>
-2. Crossroad choice between Omnisharp (Unsupported) or C# Devkit (Preview but supported by Microsoft)
-    - Omnisharp: Install the [C# extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp) from the VS Code Marketplace.
-    - C# Devkit: Install the [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) from the VS Code Marketplace.
-
-### Windows Only
-
--   Logout or restart Windows to allow changes to `%PATH%` to take effect.
--   The C# extension no longer ships with Microsoft Build Tools, so they must be installed manually.
-    -   Download the [Build Tools for Visual Studio 2022](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022).
-    -   Install the .NET desktop build tools workload. No other components are required.
-
-### MacOS Only
-
--   To avoid seeing "Some projects have trouble loading. Please review the output for more details", make sure to install the latest stable [Mono](https://www.mono-project.com/download/) release.
--   If you aren't using C# Devkit, do the following:
-    1. In your Visual Studio Code (VS Code) user settings, ensure that the configuration `"omnisharp.useModernNet":` is set to `false`. This configuration must be in place to prevent VS Code from utilizing the Mono version included in the official C# extension (specifically, version 6.0.X as of the latest release).
-    2. Upon installing the latest version of Mono directly, set the following configuration value:
-       `"omnisharp.monoPath": "/Library/Frameworks/Mono.framework/Versions/Current"` - Ensure you replace the provided path with the location where you installed Mono. By doing so, VS Code will strictly utilize the newly installed version of Mono for all operations.
+1. Install the .Net 7 SDK - <https://dotnet.microsoft.com/en-us/download>
+2. Install the [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) from the VS Code Marketplace.
 
 ## Install via Package Manager
 
@@ -111,6 +90,7 @@ Alternatively, merge the snippet to Packages/manifest.json
 
 ## Post Installation
 
+### Regenerate .csprog files
 After installing the package, follow these steps to regenerate the .csproj files:
 
 1. Open the Preferences window.
@@ -129,6 +109,10 @@ Example .gitignore lines:
 # TSK VSCode
 /CSharpProjFolders/*
 ```
+
+### Install Unity Debugger Extension
+Enhance your experience by installing the Unity Debugger, which allows you to seamlessly debug your Unity editor and players, ensuring smooth development.
+- [Extension](https://marketplace.visualstudio.com/items?itemName=visualstudiotoolsforunity.vstuc)
 
 ### Extras
 
