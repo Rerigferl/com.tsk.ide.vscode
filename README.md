@@ -39,6 +39,7 @@ Beyond simplifying setup, the com.tsk.ide.vscode package introduces a dedicated 
 ## Prerequisites
 1. Install the .Net 7 SDK - <https://dotnet.microsoft.com/en-us/download>
 2. Install the [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) from the VS Code Marketplace.
+3. Install the [Unity extension](https://marketplace.visualstudio.com/items?itemName=visualstudiotoolsforunity.vstuc) from the VS Code Marketplace
 
 ## Install via Package Manager
 
@@ -109,10 +110,6 @@ Example .gitignore lines:
 # TSK VSCode
 /CSharpProjFolders/*
 ```
-
-### Install Unity Debugger Extension
-Enhance your experience by installing the Unity Debugger, which allows you to seamlessly debug your Unity editor and players, ensuring smooth development.
-- [Extension](https://marketplace.visualstudio.com/items?itemName=visualstudiotoolsforunity.vstuc)
 
 ### Extras
 
