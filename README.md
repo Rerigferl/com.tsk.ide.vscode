@@ -98,8 +98,6 @@ After installing the package, follow these steps to regenerate the .csproj files
 2. Go to the External Tools tab.
 3. Click on the Regenerate .csproj Files option.
 
-Please note that any previously existing configuration files will be overwritten during the package installation.
-
 The assembly project files will be auto-generated in {ProjectDirectory}/CSharpProjFolders.
 
 To ignore these auto-generated files, add the following line to your .gitignore:
