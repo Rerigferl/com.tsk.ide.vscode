@@ -26,15 +26,15 @@ The `com.tsk.ide.vscode` package ensures a seamless build process by guaranteein
 
 ### Microsoft.Unity.Analyzers Integration [![NuGet](https://img.shields.io/nuget/v/Microsoft.Unity.Analyzers.svg)](https://nuget.org/packages/Microsoft.Unity.Analyzers)
 
-In addition to its core features, this package includes seamless integration with the Microsoft.Unity.Analyzers library. This integration provides you with access to a wide range of code analysis and validation tools specifically designed for Unity projects. With the support of these analyzers, you can enhance code quality, identify potential issues, and adhere to best practices, ultimately improving the overall robustness and maintainability of your Unity projects.
+In addition to its core features, this package includes seamless integration with Microsoft.Unity.Analyzers library. This integration provides access to various code analysis and validation tools designed for Unity projects. With the support of these analyzers, you can enhance code quality, identify potential issues, and adhere to best practices, ultimately improving the overall robustness and maintainability of your Unity projects.
 
 ### Streamlined Configuration Setup and Customization
 
-The com.tsk.ide.vscode package presents a proficient solution designed for streamlined integration of Visual Studio Code with Unity. This package significantly simplifies the setup process by generating essential configuration files, namely omnisharp.json and .editorconfig. This not only conserves valuable time but also boosts your efficiency by minimizing the potential for setup errors.
+The com.tsk.ide.vscode package presents a proficient solution designed for streamlined integration of Visual Studio Code with Unity. This package significantly simplifies the setup process by generating essential configuration files, namely `.editorconfig`. This conserves valuable time and boosts your efficiency by minimizing the potential for setup errors.
 
 To utilize this feature, navigate to `Preferences > External Tools > Generate config files for:` and select the appropriate options to create the configuration files. After this, merely click on the `Regenerate` button.
 
-Beyond simplifying setup, the com.tsk.ide.vscode package introduces a dedicated configuration section within External Tools. This component provides unprecedented control over the settings files generated, enabling manual customization in accordance with individual preferences and unique project requirements. This level of flexibility allows you to customize your development environment for the best possible productivity and outcome.
+Beyond simplifying setup, the com.tsk.ide.vscode package introduces a dedicated configuration section within External Tools. This component provides unprecedented control over the settings files generated, enabling manual customization in accordance with individual preferences and unique project requirements. This flexibility allows you to customize your development environment for the best possible productivity and outcome.
 
 ## Prerequisites
 1. Install the .Net 7 SDK - <https://dotnet.microsoft.com/en-us/download>
