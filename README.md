@@ -37,7 +37,7 @@ To utilize this feature, navigate to `Preferences > External Tools > Generate co
 Beyond simplifying setup, the com.tsk.ide.vscode package introduces a dedicated configuration section within External Tools. This component provides unprecedented control over the settings files generated, enabling manual customization in accordance with individual preferences and unique project requirements. This flexibility allows you to customize your development environment for the best possible productivity and outcome.
 
 ## Prerequisites
-1. Install the .Net 7 SDK - <https://dotnet.microsoft.com/en-us/download>
+1. Install the [.Net 7 SDK](https://dotnet.microsoft.com/en-us/download).
 2. Install the [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) from the VS Code Marketplace.
 3. Install the [Unity extension](https://marketplace.visualstudio.com/items?itemName=visualstudiotoolsforunity.vstuc) from the VS Code Marketplace
 
