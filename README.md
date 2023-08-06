@@ -34,9 +34,10 @@ The com.tsk.ide.vscode package presents a proficient solution designed for strea
 
 To utilize this feature, navigate to `Preferences > External Tools > Generate config files for:` and select the appropriate options to create the configuration files. After this, merely click on the `Regenerate` button.
 
-Beyond simplifying setup, the com.tsk.ide.vscode package introduces a dedicated configuration section within External Tools. This component provides unprecedented control over the settings files generated, enabling manual customization in accordance with individual preferences and unique project requirements. This flexibility allows you to customize your development environment for the best possible productivity and outcome.
+Beyond simplifying setup, the `com.tsk.ide.vscode` package introduces a dedicated configuration section within External Tools. This component provides unprecedented control over the settings files generated, enabling manual customization in accordance with individual preferences and unique project requirements. This flexibility allows you to customize your development environment for the best possible productivity and outcome.
 
 ## Prerequisites
+
 1. Install the [.Net 7 SDK](https://dotnet.microsoft.com/en-us/download).
 2. Install the [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) from the VS Code Marketplace.
 3. Install the [Unity extension](https://marketplace.visualstudio.com/items?itemName=visualstudiotoolsforunity.vstuc) from the VS Code Marketplace
@@ -68,8 +69,8 @@ Please follow the instrustions:
 -   Open Window/Package Manager
 -   Click +
 -   Select Add package by name... or Add package from git URL...
--   Paste com.tsk.ide.vscode into name
--   Paste 1.4.5 into version
+-   Paste `com.tsk.ide.vscode` into name
+-   Paste `1.4.6` into version
 -   Click Add
 
 Alternatively, merge the snippet to Packages/manifest.json
@@ -84,7 +85,7 @@ Alternatively, merge the snippet to Packages/manifest.json
         }
     ],
     "dependencies": {
-        "com.tsk.ide.vscode": "1.4.5"
+        "com.tsk.ide.vscode": "1.4.6"
     }
 }
 ```
@@ -92,6 +93,7 @@ Alternatively, merge the snippet to Packages/manifest.json
 ## Post Installation
 
 ### Regenerate .csprog files
+
 After installing the package, follow these steps to regenerate the .csproj files:
 
 1. Open the Preferences window.
