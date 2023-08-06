@@ -16,7 +16,6 @@
 *.sln
 *.code-workspace
 
-omnisharp.json
 settings.json
 
 *.dwlt
