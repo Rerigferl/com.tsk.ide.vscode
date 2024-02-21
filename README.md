@@ -30,7 +30,7 @@ In addition to its core features, this package includes seamless integration wit
 
 ### Streamlined Configuration Setup and Customization
 
-The com.tsk.ide.vscode package presents a proficient solution designed for streamlined integration of Visual Studio Code with Unity. This package significantly simplifies the setup process by generating essential configuration files, namely `.editorconfig`. This conserves valuable time and boosts your efficiency by minimizing the potential for setup errors.
+The com.tsk.ide.vscode package presents a proficient solution designed for streamlined integration of Visual Studio Code with Unity. This package significantly simplifies the setup process by generating essential configuration files, namely `settings.json`, `.editorconfig`, `.code-workspace`, and `launch.json`. This conserves valuable time and boosts your efficiency by minimizing the potential for setup errors.
 
 To utilize this feature, navigate to `Preferences > External Tools > Generate config files for:` and select the appropriate options to create the configuration files. After this, merely click on the `Regenerate` button.
 
