@@ -518,8 +518,26 @@ namespace VSCodeEditor
             // we have source files
             if (assembly.sourceFiles.Length != 0)
             {
-                var itemGroup = new XElement("ItemGroup");
+                ReadOnlySpan<char> dirPathTemp = default;
+                HashSet<string> extensions = new HashSet<string>();
+                foreach(var path in assembly.sourceFiles)
+                {
+                    var dirName = Path.GetDirectoryName(path.AsSpan());
+                    extensions.Add(Path.GetExtension(path));
+                    if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
+                        dirPathTemp = dirName;
+                }
+                string dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPathTemp.ToString(), ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
 
+                var itemGroup = new XElement("ItemGroup");
+                foreach (var extension in extensions)
+                {
+                    itemGroup.Add(
+                        new XElement("Compile", new XAttribute("Include", $"{dirPath}{extension}"))
+                    );
+                }
+
+                /*
                 foreach (var file in assembly.sourceFiles)
                 {
                     // It should have the entire path to the source file
@@ -530,7 +548,7 @@ namespace VSCodeEditor
                         new XElement("Compile", new XAttribute("Include", $"{fullFile}"))
                     );
                 }
-
+                */
                 project.Add(itemGroup);
             }
 
@@ -788,6 +806,8 @@ namespace VSCodeEditor
 
             var warningLevel = new XElement("WarningLevel", "4");
             commonPropertyGroup.Add(warningLevel);
+
+            commonPropertyGroup.Add(new XElement("NoWarn", "USG0001"));
 
             var noStdLib = new XElement("NoStdLib", "true");
             commonPropertyGroup.Add(noStdLib);
