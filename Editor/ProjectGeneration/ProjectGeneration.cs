@@ -75,8 +75,7 @@ namespace VSCodeEditor
         const string m_TargetCSharpProjFolders = "CSharpProjFolders";
 
         public string ProjectDirectory { get; }
-        public string CSharpProjFoldersDirectory =>
-            Path.Combine(ProjectDirectory, m_TargetCSharpProjFolders);
+        public string CSharpProjFoldersDirectory => ProjectDirectory; // Path.Combine(ProjectDirectory, m_TargetCSharpProjFolders);
         IAssemblyNameProvider IGenerator.AssemblyNameProvider => m_AssemblyNameProvider;
 
         readonly string m_ProjectName;
@@ -487,6 +486,16 @@ namespace VSCodeEditor
             <DefaultItemExcludes>$(DefaultItemExcludes);Library/;**/*.*</DefaultItemExcludes>
             <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
         </PropertyGroup>
+
+        <PropertyGroup Condition="" '$(Configuration)' == 'Debug' "">
+            <OutputPath>Temp\bin\Debug\</OutputPath>
+        </PropertyGroup>
+        <PropertyGroup Condition="" '$(Configuration)' == 'Release' "">
+            <OutputPath>Temp\bin\Release\</OutputPath>
+        </PropertyGroup>
+        <ItemGroup>
+            <ProjectCapability Include=""Unity"" />
+        </ItemGroup>
         </Project>
         ";
 
@@ -518,38 +527,44 @@ namespace VSCodeEditor
             // we have source files
             if (assembly.sourceFiles.Length != 0)
             {
-                ReadOnlySpan<char> dirPathTemp = default;
-                HashSet<string> extensions = new HashSet<string>();
-                foreach(var path in assembly.sourceFiles)
+                if (assembly.name.StartsWith("Assembly-CSharp"))
                 {
-                    var dirName = Path.GetDirectoryName(path.AsSpan());
-                    extensions.Add(Path.GetExtension(path));
-                    if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
-                        dirPathTemp = dirName;
-                }
-                string dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPathTemp.ToString(), ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
+                    var itemGroup = new XElement("ItemGroup");
+                    foreach (var file in assembly.sourceFiles)
+                    {
+                        // It should have the entire path to the source file
+                        var fullFile = m_FileIOProvider.EscapedRelativePathFor(file, ProjectDirectory);
 
-                var itemGroup = new XElement("ItemGroup");
-                foreach (var extension in extensions)
+                        fullFile = Path.Combine(ProjectDirectory, fullFile);
+                        itemGroup.Add(
+                            new XElement("Compile", new XAttribute("Include", $"{fullFile}"))
+                        );
+                    }
+                    project.Add(itemGroup);
+                }
+                else
                 {
-                    itemGroup.Add(
-                        new XElement("Compile", new XAttribute("Include", $"{dirPath}{extension}"))
-                    );
-                }
+                    ReadOnlySpan<char> dirPathTemp = default;
+                    HashSet<string> extensions = new HashSet<string>();
+                    foreach (var path in assembly.sourceFiles)
+                    {
+                        var dirName = Path.GetDirectoryName(path.AsSpan());
+                        extensions.Add(Path.GetExtension(path));
+                        if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
+                            dirPathTemp = dirName;
+                    }
 
-                /*
-                foreach (var file in assembly.sourceFiles)
-                {
-                    // It should have the entire path to the source file
-                    var fullFile = m_FileIOProvider.EscapedRelativePathFor(file, ProjectDirectory);
+                    string dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPathTemp.ToString(), ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
 
-                    fullFile = Path.Combine(ProjectDirectory, fullFile);
-                    itemGroup.Add(
-                        new XElement("Compile", new XAttribute("Include", $"{fullFile}"))
-                    );
+                    var itemGroup = new XElement("ItemGroup");
+                    foreach (var extension in extensions)
+                    {
+                        itemGroup.Add(
+                            new XElement("Compile", new XAttribute("Include", $"{dirPath}{extension}"))
+                        );
+                    }
+                    project.Add(itemGroup);
                 }
-                */
-                project.Add(itemGroup);
             }
 
             //  Append additional non-script files that should be included in project generation.
@@ -602,7 +617,7 @@ namespace VSCodeEditor
                             // It should have the entire path to the project file
                             Path.Combine(
                                 CSharpProjFoldersDirectory,
-                                reference.name,
+                                //reference.name,
                                 reference.name + GetProjectExtension()
                             )
                         ),
@@ -849,10 +864,7 @@ namespace VSCodeEditor
             var fileBuilder = new StringBuilder(assembly.name);
             _ = fileBuilder.Append(".csproj");
 
-            string csharpProjectFolderPath = Path.Combine(
-                CSharpProjFoldersDirectory,
-                assembly.name
-            );
+            string csharpProjectFolderPath = CSharpProjFoldersDirectory;
 
             if (!m_FileIOProvider.DirectoryExists(csharpProjectFolderPath))
             {
@@ -1025,7 +1037,7 @@ namespace VSCodeEditor
                     m_SolutionProjectEntryTemplate,
                     SolutionGuid(i),
                     i.name,
-                    $"{m_TargetCSharpProjFolders}/{projectFileName}/{projectName}",
+                    $"{i.name}.csproj",
                     ProjectGuid(i.name)
                 );
             });
