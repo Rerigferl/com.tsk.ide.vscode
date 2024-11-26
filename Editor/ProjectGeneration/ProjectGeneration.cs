@@ -474,6 +474,7 @@ namespace VSCodeEditor
             m_FileIOProvider.WriteAllText(filename, newContents);
         }
 
+        //lang=xml
         private const string SDKStyleCsProj =
             @"
         <Project Sdk=""Microsoft.NET.Sdk"">
@@ -493,9 +494,6 @@ namespace VSCodeEditor
         <PropertyGroup Condition="" '$(Configuration)' == 'Release' "">
             <OutputPath>Temp\bin\Release\</OutputPath>
         </PropertyGroup>
-        <ItemGroup>
-            <ProjectCapability Include=""Unity"" />
-        </ItemGroup>
         </Project>
         ";
 
@@ -534,7 +532,8 @@ namespace VSCodeEditor
                     {
                         // It should have the entire path to the source file
                         var fullFile = m_FileIOProvider.EscapedRelativePathFor(file, ProjectDirectory);
-
+                        if (fullFile.Contains("~"))
+                            continue;
                         fullFile = Path.Combine(ProjectDirectory, fullFile);
                         itemGroup.Add(
                             new XElement("Compile", new XAttribute("Include", $"{fullFile}"))
@@ -549,6 +548,8 @@ namespace VSCodeEditor
                     foreach (var path in assembly.sourceFiles)
                     {
                         var dirName = Path.GetDirectoryName(path.AsSpan());
+                        if (dirName.Contains("~", StringComparison.OrdinalIgnoreCase))
+                            continue;
                         extensions.Add(Path.GetExtension(path));
                         if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
                             dirPathTemp = dirName;
@@ -563,8 +564,31 @@ namespace VSCodeEditor
                             new XElement("Compile", new XAttribute("Include", $"{dirPath}{extension}"))
                         );
                     }
+
+                    var info = new DirectoryInfo(dirPathTemp.ToString());
+                    itemGroup.Add(new XComment($"{info.FullName} {info.Extension}"));
+                    if (info.Exists)
+                    {
+                        var files = info.EnumerateFiles("*.asmdef", SearchOption.AllDirectories).Skip(1);
+                        foreach (var file in files.Select(x => x.FullName).Distinct())
+                        {
+                            itemGroup.Add(
+                                new XElement("Compile", new XAttribute("Remove", Path.Combine(Path.GetDirectoryName(file), $"**{Path.DirectorySeparatorChar}*")))
+                            );
+                        }
+                    }
+
                     project.Add(itemGroup);
                 }
+            }
+
+            {
+                var itemGroup = new XElement("ItemGroup");
+                itemGroup.Add(
+                    new XElement("Compile", new XAttribute("Remove", @"**\*~\**\*"))
+                );
+
+                project.Add(itemGroup);
             }
 
             //  Append additional non-script files that should be included in project generation.
