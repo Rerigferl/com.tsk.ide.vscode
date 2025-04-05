@@ -543,6 +543,9 @@ namespace VSCodeEditor
                 }
                 else
                 {
+                    string dirPath;
+                    var asmdefPath = m_AssemblyNameProvider.GetAllAssetPaths().FirstOrDefault(x => Path.GetExtension(x.AsSpan()).Equals("asmdef", StringComparison.OrdinalIgnoreCase));
+
                     ReadOnlySpan<char> dirPathTemp = default;
                     HashSet<string> extensions = new HashSet<string>();
                     foreach (var path in assembly.sourceFiles)
@@ -554,8 +557,9 @@ namespace VSCodeEditor
                         if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
                             dirPathTemp = dirName;
                     }
+                    dirPath = !string.IsNullOrEmpty(asmdefPath) ? Path.GetDirectoryName(asmdefPath) : dirPathTemp.ToString();
 
-                    string dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPathTemp.ToString(), ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
+                    dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPath, ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
 
                     var itemGroup = new XElement("ItemGroup");
                     foreach (var extension in extensions)
@@ -832,6 +836,15 @@ namespace VSCodeEditor
             var commonPropertyGroup = new XElement("PropertyGroup");
             var langElement = new XElement("LangVersion") { Value = langVersion };
             commonPropertyGroup.Add(langElement);
+
+            try
+            {
+                if (otherArguments["nullable"].Any())
+                {
+                    commonPropertyGroup.Add(new XElement("Nullable") { Value = "enable" });
+                }
+            }
+            catch { }
 
             // Allow unsafe code
             bool allowUnsafeCode =
