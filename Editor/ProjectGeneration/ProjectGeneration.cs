@@ -543,16 +543,47 @@ namespace VSCodeEditor
                 }
                 else
                 {
+                    string CollectDirectories()
+                    {
+                        var fi = new FileInfo(assembly.sourceFiles.FirstOrDefault());
+                        var d = fi.Directory;
+                        while (d != null)
+                        {
+                            var asmdef = d.EnumerateFiles("*.asmdef", SearchOption.TopDirectoryOnly);
+                            if (asmdef.Any())
+                            {
+                                return d.FullName;
+                            }
+                            d = d.Parent;
+                        }
+                        return null;
+                    }
+
                     ReadOnlySpan<char> dirPathTemp = default;
                     HashSet<string> extensions = new HashSet<string>();
-                    foreach (var path in assembly.sourceFiles)
+
+                    if (false)
                     {
-                        var dirName = Path.GetDirectoryName(path.AsSpan());
-                        if (dirName.Contains("~", StringComparison.OrdinalIgnoreCase))
-                            continue;
-                        extensions.Add(Path.GetExtension(path));
-                        if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
-                            dirPathTemp = dirName;
+                        foreach (var path in assembly.sourceFiles)
+                        {
+                            var dirName = Path.GetDirectoryName(path.AsSpan());
+                            if (dirName.Contains("~", StringComparison.OrdinalIgnoreCase))
+                                continue;
+                            extensions.Add(Path.GetExtension(path));
+                            if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
+                                dirPathTemp = dirName;
+                        }
+                    }
+                    else 
+                    {
+                        dirPathTemp = CollectDirectories();
+                        foreach (var path in assembly.sourceFiles)
+                        {
+                            var dirName = Path.GetDirectoryName(path.AsSpan());
+                            if (dirName.Contains("~", StringComparison.OrdinalIgnoreCase))
+                                continue;
+                            extensions.Add(Path.GetExtension(path));
+                        }
                     }
 
                     string dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPathTemp.ToString(), ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
@@ -833,6 +864,11 @@ namespace VSCodeEditor
             var langElement = new XElement("LangVersion") { Value = langVersion };
             commonPropertyGroup.Add(langElement);
 
+            if (otherArguments["nullable"] is { } nullables && nullables.Any())
+            {
+                commonPropertyGroup.Add(new XElement("Nullable", nullables.FirstOrDefault()));
+            }
+
             // Allow unsafe code
             bool allowUnsafeCode =
                 assembly.compilerOptions.AllowUnsafeCode | responseFilesData.Any(x => x.Unsafe);
@@ -909,6 +945,10 @@ namespace VSCodeEditor
         )
         {
             var langVersion = langVersionList.FirstOrDefault();
+            if (langVersion?.Equals("preview", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return "11";
+            }
             return !string.IsNullOrWhiteSpace(langVersion)
                 ? langVersion
                 : assembly.compilerOptions.LanguageVersion;
@@ -1002,12 +1042,14 @@ namespace VSCodeEditor
         {
             return netSettings switch
             {
+                ApiCompatibilityLevel.NET_Standard
+                or ApiCompatibilityLevel.NET_Standard_2_0
+                    => "netstandard2.1",
                 ApiCompatibilityLevel.NET_2_0
                 or ApiCompatibilityLevel.NET_2_0_Subset
                 or ApiCompatibilityLevel.NET_Web
                 or ApiCompatibilityLevel.NET_Micro
                     => k_TargetFrameworkVersion,
-                ApiCompatibilityLevel.NET_Standard => "netstandard2.1",
                 ApiCompatibilityLevel.NET_Unity_4_8 => k_TargetFrameworkVersion,
                 _ => throw new ArgumentOutOfRangeException()
             };
