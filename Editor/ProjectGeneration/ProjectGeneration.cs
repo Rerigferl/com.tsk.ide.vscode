@@ -543,50 +543,25 @@ namespace VSCodeEditor
                 }
                 else
                 {
-                    string CollectDirectories()
-                    {
-                        var fi = new FileInfo(assembly.sourceFiles.FirstOrDefault());
-                        var d = fi.Directory;
-                        while (d != null)
-                        {
-                            var asmdef = d.EnumerateFiles("*.asmdef", SearchOption.TopDirectoryOnly);
-                            if (asmdef.Any())
-                            {
-                                return d.FullName;
-                            }
-                            d = d.Parent;
-                        }
-                        return null;
-                    }
+                    string dirPath;
+                    var asmdefPath = m_AssemblyNameProvider.GetAllAssetPaths().FirstOrDefault(x => Path.GetExtension(x.AsSpan()).Equals("asmdef", StringComparison.OrdinalIgnoreCase));
 
                     ReadOnlySpan<char> dirPathTemp = default;
                     HashSet<string> extensions = new HashSet<string>();
 
-                    if (false)
+                    foreach (var path in assembly.sourceFiles)
                     {
-                        foreach (var path in assembly.sourceFiles)
-                        {
-                            var dirName = Path.GetDirectoryName(path.AsSpan());
-                            if (dirName.Contains("~", StringComparison.OrdinalIgnoreCase))
-                                continue;
-                            extensions.Add(Path.GetExtension(path));
-                            if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
-                                dirPathTemp = dirName;
-                        }
-                    }
-                    else 
-                    {
-                        dirPathTemp = CollectDirectories();
-                        foreach (var path in assembly.sourceFiles)
-                        {
-                            var dirName = Path.GetDirectoryName(path.AsSpan());
-                            if (dirName.Contains("~", StringComparison.OrdinalIgnoreCase))
-                                continue;
-                            extensions.Add(Path.GetExtension(path));
-                        }
+                        var dirName = Path.GetDirectoryName(path.AsSpan());
+                        if (dirName.Contains("~", StringComparison.OrdinalIgnoreCase))
+                            continue;
+                        extensions.Add(Path.GetExtension(path));
+                        if (dirPathTemp.IsEmpty || dirName.Length < dirPathTemp.Length)
+                            dirPathTemp = dirName;
                     }
 
-                    string dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPathTemp.ToString(), ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
+                    dirPath = !string.IsNullOrEmpty(asmdefPath) ? Path.GetDirectoryName(asmdefPath) : dirPathTemp.ToString();
+
+                    dirPath = Path.Join(ProjectDirectory, m_FileIOProvider.EscapedRelativePathFor(dirPath, ProjectDirectory), $"**{Path.DirectorySeparatorChar}*");
 
                     var itemGroup = new XElement("ItemGroup");
                     foreach (var extension in extensions)
@@ -864,10 +839,14 @@ namespace VSCodeEditor
             var langElement = new XElement("LangVersion") { Value = langVersion };
             commonPropertyGroup.Add(langElement);
 
-            if (otherArguments["nullable"] is { } nullables && nullables.Any())
+            try
             {
-                commonPropertyGroup.Add(new XElement("Nullable", nullables.FirstOrDefault()));
+                if (otherArguments["nullable"].Any())
+                {
+                    commonPropertyGroup.Add(new XElement("Nullable") { Value = "enable" });
+                }
             }
+            catch { }
 
             // Allow unsafe code
             bool allowUnsafeCode =
